@@ -1,0 +1,35 @@
+version: '3.9'
+services:
+  # Сервис для разворачивания контейнера с базой данных
+  postgres:
+    container_name: postgres
+    image: postgres:15
+    hostname: localhost
+#    volumes:
+#      - ./postgres:/docker-entrypoint-initdb.d
+    environment:
+      - POSTGRES_DB=userService
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=ilia
+    ports:
+      - "5430:5432"
+  #  Сервис для разворачивания контейнера с приложением
+  webapi:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    hostname: webapi
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://dpg-cr5ir7tumphs73e4rnjg-a:5432/wallet_gu3s
+      - POSTGRES_USER=wallet_gu3s_user
+      - POSTGRES_PASSWORD=hiNaqnJ9xOzXp3PMw88rSpDajcBs23je
+    healthcheck:
+      test: curl http://localhost:8080 || exit 0
+      interval: 10s
+      retries: 5
+      start_period: 15s
+      timeout: 10s
