@@ -52,7 +52,7 @@ public class SessionControllerTest {
     @Test
     @DisplayName("Тест успешного входа в аккаунт")
     void login_success() throws Exception {
-        mockMvc.perform(post("/hostel/session")
+        mockMvc.perform(post("/hostel/sessions")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
@@ -70,7 +70,7 @@ public class SessionControllerTest {
     @Test
     @DisplayName("Тест провального входа в аккаунт")
     void login_invalidCredentials() throws Exception {
-        mockMvc.perform(post("/hostel/session")
+        mockMvc.perform(post("/hostel/sessions")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {

@@ -8,6 +8,7 @@ import hostel.usermicroservice.jwt.JwtTokenUtils;
 import hostel.usermicroservice.mapper.UserMapper;
 import hostel.usermicroservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,6 +19,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepository;

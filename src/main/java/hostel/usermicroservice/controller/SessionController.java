@@ -21,7 +21,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("hostel/session")
+@RequestMapping("hostel/sessions")
 public class SessionController {
 
     private final SessionService sessionService;
