@@ -116,11 +116,12 @@ public class UserServiceImplTest {
     @DisplayName("Тест поиска пользователя по имени, если токен невалиден")
     void findUserByUsername_authenticationNotFound() {
         String username = "Лапшин Илья Романович";
+        authentication = null;
+        jwtTokenUtils = new JwtTokenUtils();
 
-        when(jwtTokenUtils.getUserIdFromAuthentication(authentication)).thenReturn(userId);
-        when(userRepository.findById(userId)).thenReturn(Optional.empty());
+        userService = new UserServiceImpl(userRepository, jwtTokenUtils);
 
-        assertThrows(UsernameNotFoundException.class, () -> userService.findUserByUsername(username, authentication));
+        assertThrows(NullPointerException.class, () -> userService.findUserByUsername(username, authentication));
     }
 
     @Test
