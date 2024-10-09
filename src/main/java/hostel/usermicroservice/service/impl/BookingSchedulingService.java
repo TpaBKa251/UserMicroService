@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
-@EnableScheduling
+//@EnableScheduling
 @RequiredArgsConstructor
 @Service
 public class BookingSchedulingService {

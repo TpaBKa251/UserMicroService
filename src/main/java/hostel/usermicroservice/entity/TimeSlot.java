@@ -23,17 +23,17 @@ public class TimeSlot {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "start_time")
     private LocalDateTime startTime;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "end_time")
     private LocalDateTime endTime;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "is_booked")
     private boolean isBooked;
 
     @ManyToOne
-    @JoinColumn(referencedColumnName = "id")
+    @JoinColumn(referencedColumnName = "id", name = "user_id")
     private User user;
 }
 

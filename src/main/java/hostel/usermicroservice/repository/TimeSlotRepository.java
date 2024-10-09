@@ -9,5 +9,5 @@ import java.util.UUID;
 
 @Repository
 public interface TimeSlotRepository extends JpaRepository<TimeSlot, UUID> {
-    List<TimeSlot> findAllByBooked(boolean isBooked);
+    List<TimeSlot> findAllByIsBooked(boolean isBooked);
 }

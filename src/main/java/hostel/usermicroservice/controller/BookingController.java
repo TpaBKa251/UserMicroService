@@ -26,16 +26,16 @@ public class BookingController {
 
     @PostMapping
     public BookingDTO createBooking(@RequestBody BookingRequestDTO bookingRequest, Authentication authentication) {
-        return null;
+        return bookingService.createBooking(bookingRequest, authentication);
     }
 
     @GetMapping("/{type}/available-slots")
     public List<AvailableSlotDTO> getAvailableSlots(@PathVariable BookingType type, Authentication authentication) {
-        return null;
+        return bookingService.getAvailableSlots(type, authentication);
     }
 
     @PostMapping("/{bookingId}/cancel")
     public BookingDTO cancelBooking(@PathVariable UUID bookingId, Authentication authentication) {
-        return null;
+        return bookingService.cancelBooking(bookingId, authentication);
     }
 }

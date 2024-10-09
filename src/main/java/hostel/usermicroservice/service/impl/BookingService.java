@@ -7,6 +7,7 @@ import hostel.usermicroservice.entity.Booking;
 import hostel.usermicroservice.enums.BookingStatus;
 import hostel.usermicroservice.enums.BookingType;
 import hostel.usermicroservice.exception.BookingNotFoundException;
+import hostel.usermicroservice.mapper.BookingMapper;
 import hostel.usermicroservice.repository.BookingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -40,7 +41,7 @@ public class BookingService {
         throw new IllegalArgumentException("Unknown booking type");
     }
 
-    public boolean cancelBooking(UUID bookingId, Authentication authentication) {
+    public BookingDTO cancelBooking(UUID bookingId, Authentication authentication) {
         authentication.getCredentials();
 
         Booking booking = bookingRepository.findById(bookingId)
@@ -49,8 +50,8 @@ public class BookingService {
         if (booking.getStatus() == BookingStatus.BOOKED || booking.getStatus() == BookingStatus.IN_PROGRESS) {
             booking.setStatus(BookingStatus.CANCELLED);
             bookingRepository.save(booking);
-            return true;
         }
-        return false;
+
+        return BookingMapper.mapToBookingDTO(booking);
     }
 }

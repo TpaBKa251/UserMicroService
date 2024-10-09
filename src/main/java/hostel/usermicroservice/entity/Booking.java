@@ -25,12 +25,13 @@ import java.util.UUID;
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private UUID id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "start_time")
     private LocalDateTime startTime;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "end_time")
     private LocalDateTime endTime;
 
     @Enumerated(EnumType.STRING)
@@ -40,11 +41,11 @@ public class Booking {
     private BookingType type;
 
     @ManyToOne
-    @JoinColumn(referencedColumnName = "id")
+    @JoinColumn(referencedColumnName = "id", name = "user_id")
     private User user;
 
     @ManyToOne
-    @JoinColumn(referencedColumnName = "id")
+    @JoinColumn(referencedColumnName = "id", name = "time_slot_id")
     private TimeSlot timeSlot; // Для бронирования через тайм слот
     // Getters and Setters
 }

@@ -23,19 +23,24 @@ public class BookingStateService {
     public void updateBookingStatuses() {
         // Обновляем бронирования, которые еще не начались, но должны перейти в состояние "IN_PROGRESS"
         List<Booking> bookingsToStart = bookingRepository.findByStatus(BookingStatus.BOOKED);
-        for (Booking booking : bookingsToStart) {
-            if (booking.getStartTime().isBefore(LocalDateTime.now())) {
-                booking.setStatus(BookingStatus.IN_PROGRESS);
-                bookingRepository.save(booking);
+        if (bookingsToStart != null && !bookingsToStart.isEmpty()) {
+            for (Booking booking : bookingsToStart) {
+                if (booking.getStartTime().isBefore(LocalDateTime.now())) {
+                    booking.setStatus(BookingStatus.IN_PROGRESS);
+                    bookingRepository.save(booking);
+                }
             }
         }
 
+
         // Обновляем бронирования, которые в процессе и должны быть завершены
         List<Booking> bookingsInProgress = bookingRepository.findByStatus(BookingStatus.IN_PROGRESS);
-        for (Booking booking : bookingsInProgress) {
-            if (booking.getEndTime().isBefore(LocalDateTime.now())) {
-                booking.setStatus(BookingStatus.COMPLETED);
-                bookingRepository.save(booking);
+        if (bookingsInProgress != null && !bookingsInProgress.isEmpty()) {
+            for (Booking booking : bookingsInProgress) {
+                if (booking.getEndTime().isBefore(LocalDateTime.now())) {
+                    booking.setStatus(BookingStatus.COMPLETED);
+                    bookingRepository.save(booking);
+                }
             }
         }
     }

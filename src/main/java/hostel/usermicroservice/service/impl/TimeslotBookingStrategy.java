@@ -11,6 +11,7 @@ import hostel.usermicroservice.enums.BookingType;
 import hostel.usermicroservice.exception.SlotAlreadyBookedException;
 import hostel.usermicroservice.exception.SlotNotFoundException;
 import hostel.usermicroservice.mapper.BookingMapper;
+import hostel.usermicroservice.repository.BookingRepository;
 import hostel.usermicroservice.repository.TimeSlotRepository;
 import hostel.usermicroservice.service.BookingStrategy;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 class TimeslotBookingStrategy implements BookingStrategy {
 
     private final TimeSlotRepository timeSlotRepository;
+    private final BookingRepository bookingRepository;
     private final UserServiceImpl userService;
 
     @Override
@@ -38,12 +40,21 @@ class TimeslotBookingStrategy implements BookingStrategy {
         if (slot.isBooked()) {
             throw new SlotAlreadyBookedException("Slot already booked");
         }
+
         slot.setBooked(true);
+        slot.setUser(user);
+
+        timeSlotRepository.save(slot);
+
         Booking booking = new Booking();
         booking.setTimeSlot(slot);
         booking.setStatus(BookingStatus.BOOKED);
         booking.setUser(user);
         booking.setType(BookingType.TIME_SLOT);
+        booking.setStartTime(slot.getStartTime());
+        booking.setEndTime(slot.getEndTime());
+
+        bookingRepository.save(booking);
 
         return BookingMapper.mapToBookingDTO(booking);
     }
@@ -51,7 +62,7 @@ class TimeslotBookingStrategy implements BookingStrategy {
     @Override
     public List<AvailableSlotDTO> getAvailableSlots(Authentication authentication) {
         // Возвращаем список доступных слотов для бронирования
-        return timeSlotRepository.findAllByBooked(false)
+        return timeSlotRepository.findAllByIsBooked(false)
                 .stream().map(slot -> new AvailableSlotDTO(slot.getId(), slot.getStartTime(), slot.getEndTime()))
                 .collect(Collectors.toList());
     }
