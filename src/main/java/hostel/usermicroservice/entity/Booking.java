@@ -2,7 +2,6 @@ package hostel.usermicroservice.entity;
 
 import hostel.usermicroservice.enums.BookingStatus;
 import hostel.usermicroservice.enums.BookingType;
-import hostel.usermicroservice.repository.BookingRepository;
 import hostel.usermicroservice.service.BookingState;
 import hostel.usermicroservice.service.impl.booking_states.BookedState;
 import hostel.usermicroservice.service.impl.booking_states.CancelState;

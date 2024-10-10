@@ -12,7 +12,6 @@ import hostel.usermicroservice.mapper.BookingMapper;
 import hostel.usermicroservice.repository.BookingRepository;
 import hostel.usermicroservice.service.booking_strategy.BookingStrategy;
 import hostel.usermicroservice.service.impl.UserServiceImpl;
-import hostel.usermicroservice.service.impl.booking_states.BookedState;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -23,7 +22,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor

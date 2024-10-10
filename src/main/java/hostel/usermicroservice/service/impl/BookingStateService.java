@@ -1,18 +1,15 @@
 package hostel.usermicroservice.service.impl;
 
 import hostel.usermicroservice.entity.Booking;
-import hostel.usermicroservice.enums.BookingStatus;
 import hostel.usermicroservice.repository.BookingRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
