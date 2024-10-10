@@ -71,5 +71,4 @@ public class Booking {
             default -> throw new IllegalStateException("Unknown booking status: " + this.status);
         }
     }
-
 }

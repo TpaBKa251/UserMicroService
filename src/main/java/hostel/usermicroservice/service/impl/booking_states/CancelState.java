@@ -1,6 +1,7 @@
 package hostel.usermicroservice.service.impl.booking_states;
 
 import hostel.usermicroservice.entity.Booking;
+import hostel.usermicroservice.enums.BookingStatus;
 import hostel.usermicroservice.repository.BookingRepository;
 import hostel.usermicroservice.service.BookingState;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,8 @@ public class CancelState implements BookingState {
 
     @Override
     public void cancelBooking(Booking booking, BookingRepository bookingRepository) {
-        throw new UnsupportedOperationException("Cannot cancel not booked booking");
+        booking.setStatus(BookingStatus.CANCELLED);
+        booking.setBookingState(new CancelState());
+        bookingRepository.save(booking);
     }
 }
