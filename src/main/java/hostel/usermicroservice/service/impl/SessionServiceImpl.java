@@ -88,6 +88,8 @@ public class SessionServiceImpl implements SessionService {
         bannedToken.setToken(authentication.getCredentials().toString());
         bannedTokenRepository.save(bannedToken);
 
+        assert session != null;
+
         session.setActive(false);
         sessionRepository.save(session);
 

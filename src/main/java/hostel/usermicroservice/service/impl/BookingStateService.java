@@ -4,6 +4,9 @@ import hostel.usermicroservice.entity.Booking;
 import hostel.usermicroservice.enums.BookingStatus;
 import hostel.usermicroservice.repository.BookingRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -15,32 +18,24 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @EnableScheduling
+@Slf4j
 public class BookingStateService {
 
     private final BookingRepository bookingRepository;
 
-    @Scheduled(fixedRate = 60000) // Запускается каждую минуту
+    @Bean
+    public ApplicationRunner updateBookingStatusesOnStart() {
+        return args -> updateBookingStatuses();
+    }
+
+    @Scheduled(cron = "0 0 6-19 * * ?", zone = "Asia/Tomsk")
+    @Scheduled(cron = "0 0/10 20-23,0-1 * * ?", zone = "Asia/Tomsk")
     public void updateBookingStatuses() {
-        // Обновляем бронирования, которые еще не начались, но должны перейти в состояние "IN_PROGRESS"
-        List<Booking> bookingsToStart = bookingRepository.findByStatus(BookingStatus.BOOKED);
-        if (bookingsToStart != null && !bookingsToStart.isEmpty()) {
-            for (Booking booking : bookingsToStart) {
-                if (booking.getStartTime().isBefore(LocalDateTime.now())) {
-                    booking.setStatus(BookingStatus.IN_PROGRESS);
-                    bookingRepository.save(booking);
-                }
-            }
-        }
+        List<Booking> bookings = bookingRepository.findAll();
 
-
-        // Обновляем бронирования, которые в процессе и должны быть завершены
-        List<Booking> bookingsInProgress = bookingRepository.findByStatus(BookingStatus.IN_PROGRESS);
-        if (bookingsInProgress != null && !bookingsInProgress.isEmpty()) {
-            for (Booking booking : bookingsInProgress) {
-                if (booking.getEndTime().isBefore(LocalDateTime.now())) {
-                    booking.setStatus(BookingStatus.COMPLETED);
-                    bookingRepository.save(booking);
-                }
+        if (!bookings.isEmpty()) {
+            for (Booking booking : bookings) {
+                booking.getBookingState().updateStatus(booking, bookingRepository);
             }
         }
     }

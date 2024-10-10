@@ -3,7 +3,7 @@ server:
 
 jwt:
   secret: r1Wq3Y7Ql8ivrpC4A6vEgBg1kllCKCrFkwhbZUNZ6Y8=
-  lifetime: 24h
+  lifetime: 365d
 
 spring:
   jpa:

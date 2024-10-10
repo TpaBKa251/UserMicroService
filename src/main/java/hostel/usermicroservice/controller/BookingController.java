@@ -4,7 +4,7 @@ import hostel.usermicroservice.dto.request.BookingRequestDTO;
 import hostel.usermicroservice.dto.response.AvailableSlotDTO;
 import hostel.usermicroservice.dto.response.BookingDTO;
 import hostel.usermicroservice.enums.BookingType;
-import hostel.usermicroservice.service.impl.BookingService;
+import hostel.usermicroservice.service.BookingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,9 +30,13 @@ public class BookingController {
         return bookingService.createBooking(bookingRequest, authentication);
     }
 
-    @GetMapping("/{type}/available-slots")
-    public List<AvailableSlotDTO> getAvailableSlots(@PathVariable BookingType type, Authentication authentication) {
-        return bookingService.getAvailableSlots(type, authentication);
+    @GetMapping("/{type}/{date}/available-slots")
+    public List<AvailableSlotDTO> getAvailableSlots(
+            @PathVariable BookingType type,
+            @PathVariable LocalDate date,
+            Authentication authentication
+    ) {
+        return bookingService.getAvailableSlots(type, date, authentication);
     }
 
     @PostMapping("/{bookingId}/cancel")
